@@ -5,9 +5,9 @@ dataSources:
   # These data sources templates exist to support the different flags that a token could specify
   - name: StandardToken
     kind: ethereum/contract
-    network: mainnet
+    network: {{networkName}}
     source:
-      address: "0x744d70fdbe2ba4cf95131626614a1763df805b9e"
+      address: "{{address}}"
       startBlock: 0
       abi: ERC20
     mapping:
@@ -25,9 +25,9 @@ dataSources:
           handler: handleTransfer
   - name: BurnableToken
     kind: ethereum/contract
-    network: mainnet
+    network: {{networkName}}
     source:
-      address: "0x744d70fdbe2ba4cf95131626614a1763df805b9e"
+      address: "{{address}}"
       startBlock: 0
       abi: Burnable
     mapping:
@@ -45,9 +45,9 @@ dataSources:
           handler: handleBurn
   - name: MintableToken
     kind: ethereum/contract
-    network: mainnet
+    network: {{networkName}}
     source:
-      address: "0x744d70fdbe2ba4cf95131626614a1763df805b9e"
+      address: "{{address}}"
       startBlock: 0
       abi: Mintable
     mapping:
@@ -65,9 +65,9 @@ dataSources:
           handler: handleMint
   - name: PausableToken
     kind: ethereum/contract
-    network: mainnet
+    network: {{networkName}}
     source:
-      address: "0x744d70fdbe2ba4cf95131626614a1763df805b9e"
+      address: "{{address}}"
       startBlock: 0
       abi: Pausable
     mapping:

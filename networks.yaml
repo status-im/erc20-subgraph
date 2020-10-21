@@ -1,0 +1,6 @@
+mainnet:
+  networkName: mainnet
+  address: "0x744d70fdbe2ba4cf95131626614a1763df805b9e"
+ropsten:
+  networkName: ropsten
+  address: "0xc55cF4B03948D7EBc8b9E8BAD92643703811d162"

@@ -98,8 +98,8 @@ type Token @entity {
   " If token transfers are paused "
   paused: Boolean
 
-  # TODO: Number of token holders
-  # holderCount: BigInt!
+  " Number of token holders "
+  holderCount: BigInt!
 
   " Total number of events (all types)"
   eventCount: BigInt!

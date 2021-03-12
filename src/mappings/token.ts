@@ -1,17 +1,15 @@
 import { Address, log, BigDecimal, Bytes, EthereumEvent, Value, JSONValue, } from '@graphprotocol/graph-ts'
 
-import { Transfer } from '../../generated/templates/StandardToken/ERC20'
-import { Burn } from '../../generated/templates/BurnableToken/Burnable'
-import { Mint } from '../../generated/templates/MintableToken/Mintable'
-import { Pause, Unpause, Paused, Unpaused } from '../../generated/templates/PausableToken/Pausable'
+import { Transfer } from '../../generated/StandardToken/ERC20'
+import { Burn } from '../../generated/BurnableToken/Burnable'
+import { Mint } from '../../generated/MintableToken/Mintable'
+import { Pause, Unpause, Paused, Unpaused } from '../../generated/PausableToken/Pausable'
 
 import { Token, BurnEvent, MintEvent, TransferEvent, PauseEvent } from '../../generated/schema'
-import { ERC20 } from '../../generated/TokenRegistry/ERC20'
+import { ERC20 } from '../../generated/StandardToken/ERC20'
 
 import { toDecimal, ONE, ZERO } from '../helpers/number'
 import { decodeFlags, hasBurnEvent, hasMintEvent, DEFAULT_DECIMALS } from '../helpers/token'
-import { BurnableToken, MintableToken, StandardToken } from '../../generated/templates'
-import { createToken, IValue } from './registry'
 
 import {
   decreaseAccountBalance,
@@ -61,10 +59,10 @@ export function handleTransfer(event: Transfer): void {
           'handleTransfer, token: {}',
           [token.address.toString()]
       )
-    let amount = toDecimal(event.params.value, token.decimals)
+    let amount = toDecimal(event.params._amount, token.decimals)
 
-    let isBurn = token.flags.includes('burnable-transfer') && event.params.to.toHex() == GENESIS_ADDRESS
-    let isMint = token.flags.includes('mintable-transfer') && event.params.from.toHex() == GENESIS_ADDRESS
+    let isBurn = token.flags.includes('burnable-transfer') && event.params._to.toHex() == GENESIS_ADDRESS
+    let isMint = token.flags.includes('mintable-transfer') && event.params._from.toHex() == GENESIS_ADDRESS
     let isTransfer = !isBurn && !isMint
 
     // Update token event logs
@@ -76,22 +74,22 @@ export function handleTransfer(event: Transfer): void {
       // )
 
     if (isBurn) {
-      let eventEntity = handleBurnEvent(token, amount, event.params.from, event)
+      let eventEntity = handleBurnEvent(token, amount, event.params._from, event)
 
       eventEntityId = eventEntity.id
     } else if (isMint) {
-      let eventEntity = handleMintEvent(token, amount, event.params.to, event)
+      let eventEntity = handleMintEvent(token, amount, event.params._to, event)
 
       eventEntityId = eventEntity.id
     } else if (isTransfer) {
-      let eventEntity = handleTransferEvent(token, amount, event.params.from, event.params.to, event)
+      let eventEntity = handleTransferEvent(token, amount, event.params._from, event.params._to, event)
 
       eventEntityId = eventEntity.id
     }
 
     // Updates balances of accounts
     if (isTransfer || isBurn) {
-      let sourceAccount = getOrCreateAccount(event.params.from)
+      let sourceAccount = getOrCreateAccount(event.params._from)
 
       let accountBalance = decreaseAccountBalance(sourceAccount, token as Token, amount)
       accountBalance.block = event.block.number
@@ -106,7 +104,7 @@ export function handleTransfer(event: Transfer): void {
     }
 
     if (isTransfer || isMint) {
-      let destinationAccount = getOrCreateAccount(event.params.to)
+      let destinationAccount = getOrCreateAccount(event.params._to)
 
       let accountBalance = increaseAccountBalance(destinationAccount, token as Token, amount)
       accountBalance.block = event.block.number

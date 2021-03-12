@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "auth": "graph auth",
     "codegen": "graph codegen",
     "build": "graph build",
     "clean": "shx rm -rf ./build ./src/types ./subgraph.yaml",
@@ -11,7 +12,7 @@
     "remove-local": "graph remove --node http://localhost:8020/ graphprotocol/erc20-subgraph",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 graphprotocol/erc20-subgraph",
     "deploy:ropsten": "npm prepare:ropsten && SUBGRAPH=bgits/status-snt npm deploy",
-    "deploy:mainnet": "npm run prepare:mainnet && SUBGRAPH=/bgits/snt-mainnet npm run deploy",
+    "deploy:mainnet": "npm run prepare:mainnet && SUBGRAPH=bgits/snt-mainnet yarn deploy",
     "prepare:ropsten": "NETWORK_NAME=ropsten node ./templatify.js",
     "prepare:mainnet": "NETWORK_NAME=mainnet node ./templatify.js"
   },

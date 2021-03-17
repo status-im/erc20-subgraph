@@ -30,7 +30,6 @@ function getOrCreateAccountBalance(account: Account, token: Token): AccountBalan
   newBalance.account = account.id
   newBalance.token = token.id
   newBalance.amount = ZERO.toBigDecimal()
-  // increment token count
   token.holderCount = token.holderCount.plus(ONE)
   token.save()
 

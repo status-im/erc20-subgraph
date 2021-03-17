@@ -44,6 +44,7 @@ export function handleTransfer(event: Transfer): void {
         token.flags = decodeFlags(0)
 
         token.eventCount = ZERO
+        token.holderCount = ZERO
         token.burnEventCount = ZERO
         token.mintEventCount = ZERO
         token.transferEventCount = ZERO

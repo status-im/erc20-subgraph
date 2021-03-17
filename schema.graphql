@@ -248,3 +248,5 @@ type PauseEvent implements TokenEvent @entity {
   " Transaction hash "
   transaction: Bytes!
 }
+
+
